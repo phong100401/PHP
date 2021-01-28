@@ -1,0 +1,9 @@
+<?php
+if(isset($_COOKIE['NAME'])){
+    $last = $_COOKIE['NAME'];
+    echo "Welcom back! <br> Your name is " .$last;
+}
+else{
+    echo "welcome to our site!";
+}
+?>
