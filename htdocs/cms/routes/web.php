@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+use App\Models\Posts;
+
 Route::get('home','HomeController@showWelcome');
 Route::get('about','AboutController@showDetails');
 
@@ -45,12 +47,12 @@ Route::get('about/{theArt}/{thePrice}',function ($theArt,$thePrice){
 });
 
 Route::get('where',function (){
-    return Redirect::to('about/directions');
+   return Redirect::to('about/directions');
 });
 
 Route::get('/insert',function (){
-    DB::insert('insert into posts(title,body) values (?,?)',['PHP with Laravel','laravel is the best framework']);
-    return 'DONE';
+   DB::insert('insert into posts(title,body)values(?,?)',['PHP with Laravel','Laravel is the best framewok ! ']);
+   return 'Done';
 });
 
 Route::get('/read',function (){
@@ -69,4 +71,62 @@ Route::get('update',function (){
 Route::get('delete',function (){
     $deleted = DB::delete('delete from posts where id = ? ',[3]);
     return $deleted;
+});
+
+Route::get('readAll',function (){
+   $posts = Posts::all();
+   foreach ($posts as $p)
+   {
+       echo $p->title . "". $p->body;
+       echo "<br>";
+   }
+});
+
+//Route::get('findId',function (){
+//    $posts = Posts::where('id',2)
+//    ->orderBy('id','desc')
+//        ->take(1)
+//    ->get();
+//    foreach ($posts as $p)
+//    {
+//        echo $p->title . "". $p->body;
+//        echo "<br>";
+//    }
+//});
+Route::get('findId',function (){
+    $posts = Posts::where('id','>=',1)
+        ->where('title','like','%New%')
+        ->where('body','like','%new%')
+        ->take(10)
+        ->get();
+    foreach ($posts as $p)
+    {
+        echo $p->title . "";
+        echo "<br>";
+    }
+});
+
+Route::get('insertORM',function (){
+    $p = new Posts();
+    $p -> title = 'insertORM';
+    $p -> body = 'INSERT done done ORM';
+    $p -> save();
+});
+
+Route::get('updateORM',function (){
+    $p =  Posts::where('id',5)->first();
+    $p -> title = 'updated ORM';
+    $p -> body = 'updated done done ORM';
+    $p -> save();
+
+});
+
+Route::get('deletedORM',function (){
+    Posts::where('id','>=',14)
+        ->delete();
+});
+
+Route::get('destroyORM',function (){
+    Posts::destroy([7,11]);
+
 });
