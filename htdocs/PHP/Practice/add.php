@@ -7,7 +7,7 @@
 
 <body>
 <h1>Add new student</h1>
-<form action="insertStudent.php" method="post">
+<form action="insert.php.php" method="post">
     <p>
         <label for="Name">Name:</label>
         <input type="text" name="name" id="Name">
